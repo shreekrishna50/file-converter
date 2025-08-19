@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>File Converter</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+</head>
+<body>
+    <div class="container">
+        <h1>🌍 File Converter</h1>
+        <p>Upload your files and convert them easily!</p>
+
+        <!-- Drag & Drop area -->
+        <div id="drop-area">
+            <p>Drag & Drop files here or click to select</p>
+            <input type="file" id="fileElem" name="files" multiple hidden>
+            <label class="button" for="fileElem">Choose Files</label>
+        </div>
+
+        <!-- Form -->
+        <form id="uploadForm">
+            <input type="file" id="fileInput" name="files" multiple hidden>
+
+            <select name="conversion_type" id="conversion_type" required>
+    <option value="">Select Conversion Type</option>
+    <option value="text_uppercase">Text → Uppercase</option>
+    <option value="pdf_to_word">PDF → Word</option>
+    <option value="image_to_pdf">Image → PDF</option>
+    <option value="word_to_pdf">Word → PDF</option>
+    <option value="excel_to_csv">Excel → CSV</option>
+   
+    
+</select>
+<br><br>
+
+            <button type="submit">Convert</button>
+        </form>
+
+        <!-- Progress bar -->
+        <div id="progress-container" style="display:none;">
+            <progress id="progress-bar" value="0" max="100"></progress>
+            <p id="status-msg">Converting...</p>
+        </div>
+
+        <!-- File list -->
+        <ul id="file-list"></ul>
+    </div>
+
+    <script>
+        const dropArea = document.getElementById("drop-area");
+        const fileElem = document.getElementById("fileElem");
+        const fileList = document.getElementById("file-list");
+        const uploadForm = document.getElementById("uploadForm");
+        const progressContainer = document.getElementById("progress-container");
+        const progressBar = document.getElementById("progress-bar");
+        const statusMsg = document.getElementById("status-msg");
+        let selectedFiles;
+
+        // Prevent default drag behaviors
+        ["dragenter", "dragover", "dragleave", "drop"].forEach(eventName => {
+            dropArea.addEventListener(eventName, e => e.preventDefault());
+        });
+
+        // Highlight on drag
+        ["dragenter", "dragover"].forEach(eventName => {
+            dropArea.addEventListener(eventName, () => dropArea.classList.add("highlight"));
+        });
+        ["dragleave", "drop"].forEach(eventName => {
+            dropArea.addEventListener(eventName, () => dropArea.classList.remove("highlight"));
+        });
+
+        // Handle dropped files
+        dropArea.addEventListener("drop", e => {
+            handleFiles(e.dataTransfer.files);
+        });
+
+        fileElem.addEventListener("change", () => {
+            handleFiles(fileElem.files);
+        });
+
+        function handleFiles(files) {
+            selectedFiles = files;
+            fileList.innerHTML = "";
+            [...files].forEach(file => {
+                let li = document.createElement("li");
+                li.textContent = file.name;
+                fileList.appendChild(li);
+            });
+        }
+
+        // Handle form submit with AJAX
+        uploadForm.addEventListener("submit", async (e) => {
+            e.preventDefault();
+
+            if (!selectedFiles || selectedFiles.length === 0) {
+                alert("Please select files first.");
+                return;
+            }
+
+            let formData = new FormData();
+            for (let i = 0; i < selectedFiles.length; i++) {
+                formData.append("files", selectedFiles[i]);
+            }
+            formData.append("conversion_type", document.getElementById("conversion_type").value);
+
+            progressContainer.style.display = "block";
+            progressBar.value = 0;
+            statusMsg.textContent = "Uploading...";
+
+            // Send request
+            let response = await fetch("/", {
+                method: "POST",
+                body: formData
+            });
+
+            if (response.ok) {
+                progressBar.value = 100;
+                statusMsg.textContent = "✅ Conversion Complete! Downloading file...";
+
+                // Download file automatically
+                let blob = await response.blob();
+                let url = window.URL.createObjectURL(blob);
+                let a = document.createElement("a");
+                a.href = url;
+                a.download = "converted_file"; // default name
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+
+                setTimeout(() => {
+                    progressContainer.style.display = "none";
+                }, 3000);
+            } else {
+                statusMsg.textContent = "❌ Conversion failed. Try again!";
+            }
+        });
+
+        if (/Mobi|Android/i.test(navigator.userAgent)) {
+    document.getElementById("drop-area").style.display = "none";
+}
+
+    </script>
+</body>
+</html>
