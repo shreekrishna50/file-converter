@@ -7,11 +7,22 @@ from docx import Document
 from fpdf import FPDF
 import pandas as pd
 
-
+# ------------------------
+# Initialize Flask App
+# ------------------------
 app = Flask(__name__)
-UPLOAD_FOLDER = "uploads"
-os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
+# ------------------------
+# Upload folder setup
+# ------------------------
+UPLOAD_FOLDER = "uploads"
+# Automatically create uploads folder at runtime
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
+
+# ------------------------
+# Routes
+# ------------------------
 @app.route("/", methods=["GET", "POST"])
 def index():
     if request.method == "POST":
@@ -20,7 +31,7 @@ def index():
         converted_files = []
 
         for uploaded_file in files:
-            file_path = os.path.join(UPLOAD_FOLDER, uploaded_file.filename)
+            file_path = os.path.join(app.config["UPLOAD_FOLDER"], uploaded_file.filename)
             uploaded_file.save(file_path)
 
             # --- TEXT → UPPERCASE ---
@@ -62,15 +73,16 @@ def index():
                 df.to_csv(output_file, index=False)
 
             # --- AUDIO MP3 ↔ WAV ---
-           
             else:
                 return "Invalid conversion type"
 
             converted_files.append(output_file)
 
+        # ------------------------
         # If multiple files → zip
+        # ------------------------
         if len(converted_files) > 1:
-            zip_path = os.path.join(UPLOAD_FOLDER, "converted_files.zip")
+            zip_path = os.path.join(app.config["UPLOAD_FOLDER"], "converted_files.zip")
             with ZipFile(zip_path, "w") as zipf:
                 for f in converted_files:
                     zipf.write(f, os.path.basename(f))
@@ -80,5 +92,10 @@ def index():
 
     return render_template("index.html")
 
+
+# ------------------------
+# Run App
+# ------------------------
 if __name__ == "__main__":
-    app.run(debug=True)
+    # Use 0.0.0.0 for deployment
+    app.run(debug=True, host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
