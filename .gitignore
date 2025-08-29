@@ -1,0 +1,29 @@
+# Virtual environment
+venv/
+env/
+*.pyc
+__pycache__/
+*.pyo
+*.pyd
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# IDE/Editor
+.vscode/
+.idea/
+
+# Python packages
+*.egg-info/
+dist/
+build/
+
+# Flask instance folder
+instance/
+
+# Render secrets (if any)
+*.env
