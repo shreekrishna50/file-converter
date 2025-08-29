@@ -1,135 +1,247 @@
+/* ================== General Styles ================== */
 body {
-    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #6dd5ed, #2193b0);
-    color: #333;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
     padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+    background-color: #f5f7fa;
+    color: #333;
 }
 
-.container {
-    width: 500px;
-    background: #fff;
-    padding: 30px;
-    border-radius: 15px;
-    box-shadow: 0px 5px 20px rgba(0,0,0,0.2);
+h1, h2 {
     text-align: center;
+    margin-bottom: 20px;
+    color: #2c3e50;
 }
 
-h1 {
-    margin-bottom: 10px;
-    color: #2193b0;
+p {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 16px;
+    color: #555;
 }
 
+/* ================== Features Section ================== */
+.features {
+    margin-bottom: 50px;
+}
+
+.feature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 20px;
+    padding: 0 20px;
+}
+
+.feature-card {
+    background: #fff;
+    padding: 25px 15px;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    text-align: center;
+    font-weight: 600;
+    font-size: 16px;
+    transition: transform 0.3s, box-shadow 0.3s;
+    cursor: default;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
+
+/* ================== Benefits Section ================== */
+.benefits {
+    background: #eef2f7;
+    padding: 50px 20px;
+    border-radius: 12px;
+    margin-bottom: 50px;
+}
+
+.benefit-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 25px;
+}
+
+.benefit-card {
+    background:#fff;
+    padding:25px;
+    border-radius:12px;
+    text-align:center;
+    font-weight:500;
+    box-shadow:0 5px 15px rgba(0,0,0,0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.benefit-card:hover {
+    transform: translateY(-5px);
+    box-shadow:0 10px 20px rgba(0,0,0,0.15);
+}
+
+/* ================== Testimonials Section ================== */
+.testimonials {
+    padding: 50px 20px;
+    margin-bottom: 50px;
+}
+
+.testimonial-card {
+    background:#fff;
+    padding:25px;
+    border-radius:12px;
+    margin-bottom:20px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.1);
+    font-style: italic;
+    text-align:center;
+}
+
+/* ================== Drag & Drop Area ================== */
 #drop-area {
-    border: 3px dashed #2193b0;
-    border-radius: 15px;
-    padding: 30px;
-    margin: 20px 0;
-    background: #f9f9f9;
-    transition: 0.3s;
-    cursor: pointer;
+    background: #fff;
+    border: 2px dashed #bbb;
+    padding: 40px;
+    text-align: center;
+    border-radius:12px;
+    margin-bottom: 30px;
+    transition: border-color 0.3s, box-shadow 0.3s;
 }
 
 #drop-area.highlight {
-    background: #e0f7fa;
-    border-color: #00796b;
+    border-color: #4caf50;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
 }
 
 .button {
-    display: inline-block;
-    padding: 10px 20px;
-    background: #2193b0;
-    color: white;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-top: 10px;
+    display:inline-block;
+    padding:12px 25px;
+    background:#4caf50;
+    color:#fff;
+    border-radius:6px;
+    cursor:pointer;
+    font-weight:bold;
+    transition: background 0.3s, transform 0.3s;
 }
 
-button {
-    padding: 12px 25px;
-    border: none;
-    border-radius: 8px;
-    background: #2193b0;
-    color: white;
+.button:hover {
+    background:#45a049;
+    transform: scale(1.05);
+}
+
+/* ================== Form Styles ================== */
+#uploadForm {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+#uploadForm select {
+    padding: 12px;
     font-size: 16px;
-    cursor: pointer;
-    transition: 0.3s;
+    margin-right: 10px;
+    border-radius:6px;
+    border:1px solid #ccc;
+    outline:none;
 }
 
-button:hover {
-    background: #176782;
+#uploadForm button {
+    padding:12px 25px;
+    font-size:16px;
+    background:#4caf50;
+    color:#fff;
+    border:none;
+    border-radius:6px;
+    cursor:pointer;
+    font-weight:bold;
+    transition: background 0.3s, transform 0.3s;
 }
 
-select {
-    padding: 10px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-    margin-top: 10px;
+#uploadForm button:hover {
+    background:#45a049;
+    transform: scale(1.05);
 }
 
-ul {
-    list-style: none;
-    padding: 0;
-    margin-top: 15px;
-    text-align: left;
-}
-
-ul li {
-    background: #e0f7fa;
-    padding: 8px;
-    margin: 5px 0;
-    border-radius: 5px;
-}
-
+/* ================== Progress Bar ================== */
 #progress-container {
-    margin-top: 20px;
+    text-align:center;
+    margin-top:20px;
 }
 
-progress {
-    width: 100%;
+#progress-bar {
+    width: 80%;
     height: 20px;
-    border-radius: 10px;
+    border-radius:10px;
+    overflow:hidden;
+    margin-bottom:10px;
 }
 
-#status-msg {
-    margin-top: 10px;
-    font-weight: bold;
-    color: #2193b0;
+/* ================== File List ================== */
+#file-list {
+    margin-top:10px;
+    list-style:none;
+    padding:0;
 }
 
-/* 🔹 Responsive Design for Smartphones */
-@media (max-width: 600px) {
-    body {
-        flex-direction: column;
-        height: auto;
-        padding: 20px;
-    }
+/* ================== Sticky CTA ================== */
+.sticky-cta {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    background:#4caf50;
+    color:#fff;
+    padding:15px 30px;
+    border-radius:50px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.2);
+    cursor:pointer;
+    font-weight:bold;
+    z-index:999;
+    transition: transform 0.3s;
+}
 
-    .container {
-        width: 100%;
-        max-width: 90%;
-        padding: 20px;
-    }
+.sticky-cta:hover {
+    transform: scale(1.1);
+}
 
-    h1 {
-        font-size: 22px;
-    }
+/* ================== Fade-in Animation ================== */
+.fade-in {
+    opacity:0;
+    transform: translateY(20px);
+    transition: all 0.8s ease-out;
+}
 
-    #drop-area {
-        padding: 20px;
-        font-size: 14px;
-    }
+.fade-in.visible {
+    opacity:1;
+    transform: translateY(0);
+}
 
-    button, select {
-        width: 100%;
-        margin-top: 10px;
+/* ================== Responsive Design ================== */
+@media screen and (max-width:768px){
+    .feature-grid, .benefit-grid {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
     }
+    #uploadForm select {
+        margin-bottom: 10px;
+    }
+}
 
-    ul {
-        font-size: 14px;
-    }
+.benefit-card {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.benefit-card:hover {
+  transform: translateY(-5px);
+}
+
+.benefit-detail {
+  display: none;
+  margin-top: 10px;
+  font-size: 14px;
+  color: #555;
+  line-height: 1.4;
+}
+.benefit-card.active .benefit-detail {
+  display: block;
 }

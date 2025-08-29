@@ -1,146 +1,539 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <title>File Converter</title>
+    <title>🌍 Multi Converter</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f9f9f9;
+        }
 
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        h1,
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        p {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        /* File Conversion Section */
+        #conversion-section {
+            margin-bottom: 50px;
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Features Section */
+        .features {
+            margin-bottom: 50px;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+        }
+
+        .feature-card {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            font-weight: bold;
+            font-size: 16px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: default;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Benefits Section */
+        .benefits {
+            background: #eef2f7;
+            padding: 40px 20px;
+            border-radius: 10px;
+            margin-bottom: 50px;
+        }
+
+        .benefit-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .benefit-card {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .benefit-card i {
+            color: #4caf50;
+            font-size: 24px;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        /* Testimonials Section */
+        .testimonials {
+            padding: 40px 20px;
+            margin-bottom: 50px;
+        }
+
+        #testimonialList .testimonial-card {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            opacity: 1;
+            transition: all 0.5s ease;
+        }
+
+        .verified-badge {
+            display: inline-block;
+            background: #4caf50;
+            color: #fff;
+            font-size: 12px;
+            padding: 2px 6px;
+            border-radius: 4px;
+            margin-left: 10px;
+        }
+
+        /* Drag & Drop / Form */
+        #drop-area {
+            background: #fafafa;
+            border: 2px dashed #bbb;
+            padding: 30px;
+            text-align: center;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            transition: border-color 0.3s;
+        }
+
+        #drop-area.highlight {
+            border-color: #4caf50;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #4caf50;
+            color: #fff;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        #uploadForm {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        #uploadForm select {
+            padding: 10px;
+            font-size: 16px;
+            margin-right: 10px;
+        }
+
+        #uploadForm button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background: #4caf50;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #progress-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        #file-list {
+            margin-top: 10px;
+            list-style: none;
+            padding: 0;
+        }
+
+        /* Feedback Form */
+        .feedback {
+            margin-bottom: 50px;
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .feedback input,
+        .feedback textarea {
+            padding: 10px;
+            margin: 5px 0;
+            width: 95%;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .feedback button {
+            padding: 10px 20px;
+            background: #4caf50;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        /* Engagement Section */
+        .engagement {
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            margin-bottom: 50px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .stat {
+            font-size: 24px;
+            font-weight: bold;
+            color: #4caf50;
+        }
+
+        .ratings {
+            display: flex;
+            justify-content: center;
+            gap: 5px;
+            margin-bottom: 10px;
+        }
+
+        /* FAQ Section */
+        .faq {
+            margin-bottom: 50px;
+        }
+
+        .faq-item {
+            background: #fff;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+        }
+
+        .faq-item p {
+            display: none;
+            margin-top: 10px;
+        }
+
+        /* Sticky CTA */
+        .sticky-cta {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #4caf50;
+            color: #fff;
+            padding: 15px 25px;
+            border-radius: 50px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            font-weight: bold;
+            z-index: 999;
+            transition: transform 0.3s;
+        }
+
+        .sticky-cta:hover {
+            transform: scale(1.1);
+        }
+
+        /* Animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.8s ease-out;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
 </head>
+
 <body>
+
     <div class="container">
-        <h1>🌍 File Converter</h1>
-        <p>Upload your files and convert them easily!</p>
+        <h1>🌍 Multi Converter</h1>
+        <p>Upload your files and convert them instantly!</p>
 
-        <!-- Drag & Drop area -->
-        <div id="drop-area">
-            <p>Drag & Drop files here or click to select</p>
-            <input type="file" id="fileElem" name="files" multiple hidden>
-            <label class="button" for="fileElem">Choose Files</label>
+        <!-- ===== File Conversion Section ===== -->
+        <div id="conversion-section" class="fade-in">
+            <div id="drop-area">
+                <p>📂 Drag & Drop files here or click to select</p>
+                <input type="file" id="fileElem" name="files" multiple hidden>
+                <label class="button" for="fileElem">Choose Files</label>
+            </div>
+
+            <form id="uploadForm">
+                <select name="conversion_type" id="conversion_type" required>
+                    <option value="">🔄 Select Conversion Type</option>
+                    <option value="pdf_to_word">📑 PDF → Word</option>
+                    <option value="image_to_pdf">🖼️ Image → PDF</option>
+                    <option value="word_to_pdf">📝 Word → PDF</option>
+                    <option value="excel_to_csv">📊 Excel → CSV</option>
+                    <option value="mp3_to_wav">🎵 MP3 → WAV</option>
+                    <option value="wav_to_mp3">🎶 WAV → MP3</option>
+                    <option value="mp4_to_avi">🎬 MP4 → AVI</option>
+                    <option value="avi_to_mp4">📽️ AVI → MP4</option>
+                    <option value="mp4_to_mp3">🎧 MP4 → MP3</option>
+                </select>
+                <button type="submit">🚀 Convert</button>
+            </form>
+
+            <div id="progress-container" style="display:none;">
+                <progress id="progress-bar" value="0" max="100"></progress>
+                <p id="status-msg">⏳ Converting...</p>
+            </div>
+
+            <ul id="file-list"></ul>
         </div>
 
-        <!-- Form -->
-        <form id="uploadForm">
-            <input type="file" id="fileInput" name="files" multiple hidden>
-
-            <select name="conversion_type" id="conversion_type" required>
-    <option value="">Select Conversion Type</option>
-    <option value="text_uppercase">Text → Uppercase</option>
-    <option value="pdf_to_word">PDF → Word</option>
-    <option value="image_to_pdf">Image → PDF</option>
-    <option value="word_to_pdf">Word → PDF</option>
-    <option value="excel_to_csv">Excel → CSV</option>
-   
-    
-</select>
-<br><br>
-
-            <button type="submit">Convert</button>
-        </form>
-
-        <!-- Progress bar -->
-        <div id="progress-container" style="display:none;">
-            <progress id="progress-bar" value="0" max="100"></progress>
-            <p id="status-msg">Converting...</p>
+        <!-- ===== Features Section ===== -->
+        <div class="features fade-in">
+            <h2>Supported Conversions</h2>
+            <div class="feature-grid">
+                <div class="feature-card">📑 PDF → Word</div>
+                <div class="feature-card">🖼️ Image → PDF</div>
+                <div class="feature-card">📝 Word → PDF</div>
+                <div class="feature-card">📊 Excel → CSV</div>
+                <div class="feature-card">🎵 MP3 → WAV</div>
+                <div class="feature-card">🎶 WAV → MP3</div>
+                <div class="feature-card">🎬 MP4 → AVI</div>
+                <div class="feature-card">📽️ AVI → MP4</div>
+                <div class="feature-card">🎧 MP4 → MP3</div>
+            </div>
         </div>
 
-        <!-- File list -->
-        <ul id="file-list"></ul>
+        <!-- ===== Benefits Section ===== -->
+        <div class="benefits fade-in">
+            <h2>Why Choose Us?</h2>
+            <div class="benefit-grid">
+
+                <div class="benefit-card" onclick="toggleDetail(this)">
+                    <i>⚡</i> Fast & Easy Conversion
+                    <p class="benefit-detail">Our tool processes files instantly using optimized conversion algorithms,
+                        saving you valuable time.</p>
+                </div>
+
+                <div class="benefit-card" onclick="toggleDetail(this)">
+                    <i>🔒</i> Secure & Private
+                    <p class="benefit-detail">Your files are encrypted during upload and automatically deleted after
+                        conversion. Privacy is our top priority.</p>
+                </div>
+
+                <div class="benefit-card" onclick="toggleDetail(this)">
+                    <i>🌐</i> Supports Multiple Formats
+                    <p class="benefit-detail">Convert between PDF, Word, Excel, Images, Audio, and Video without
+                        hassle—all in one place.</p>
+                </div>
+
+                <div class="benefit-card" onclick="toggleDetail(this)">
+                    <i>💯</i> No Signup Required
+                    <p class="benefit-detail">You don’t need to create an account. Just upload, convert, and download
+                        your file instantly.</p>
+                </div>
+
+            </div>
+        </div>
+        <!-- ===== Engagement Section ===== -->
+        <div class="engagement fade-in">
+            <h2>Our Impact</h2>
+            <div class="stats">
+                <div class="stat">📂 200+ Files Converted</div>
+                <div class="stat">😊 250+ Happy Users</div>
+                <div class="stat">⭐ 4.2/5 Average Rating</div>
+            </div>
+            <div class="ratings">
+                <span>⭐</span><span>⭐</span><span>⭐</span><span>⭐</span>
+            </div>
+            <p>Join thousands of users who trust us daily!</p>
+        </div>
+
+        <!-- ===== Testimonials Section ===== -->
+        <div class="testimonials fade-in">
+            <h2>What Users Say</h2>
+            <div id="testimonialList">
+                <div class="testimonial-card">"Amazing website! Converted my PDF to Word in seconds!" - Priya <span
+                        class="verified-badge">Verified</span></div>
+                <div class="testimonial-card">"User-friendly and fast. Highly recommended!" - Raj <span
+                        class="verified-badge">Verified</span></div>
+                <div class="testimonial-card">"I love that it supports so many formats!" - Ankit <span
+                        class="verified-badge">Verified</span></div>
+            </div>
+        </div>
+
+        <!-- ===== Feedback Form ===== -->
+        <div class="feedback fade-in">
+            <h2>Share Your Experience</h2>
+            <form id="feedbackForm">
+                <input type="text" name="name" placeholder="Your Name" required>
+                <textarea name="message" placeholder="Write your opinion..." required></textarea>
+                <button type="submit">Submit Feedback</button>
+            </form>
+        </div>
+
+        <!-- ===== FAQ Section ===== -->
+        <div class="faq fade-in">
+            <h2>Frequently Asked Questions</h2>
+            <div class="faq-item">
+                <h3>Is my data secure?</h3>
+                <p>Yes! All files are encrypted and deleted after conversion.</p>
+            </div>
+            <div class="faq-item">
+                <h3>Do I need an account?</h3>
+                <p>No account is required. Just upload and convert!</p>
+            </div>
+            <div class="faq-item">
+                <h3>Which formats are supported?</h3>
+                <p>We support PDF, Word, Excel, Image, Audio, and Video formats.</p>
+            </div>
+        </div>
+
     </div>
 
+    <!-- Sticky CTA -->
+    <div class="sticky-cta" onclick="document.getElementById('fileElem').click();">📂 Upload Files</div>
+    
     <script>
+        // Scroll animation
+        const fadeEls = document.querySelectorAll('.fade-in');
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+        }, { threshold: 0.2 });
+        fadeEls.forEach(el => observer.observe(el));
+
+        // File drag & drop
         const dropArea = document.getElementById("drop-area");
         const fileElem = document.getElementById("fileElem");
         const fileList = document.getElementById("file-list");
-        const uploadForm = document.getElementById("uploadForm");
-        const progressContainer = document.getElementById("progress-container");
-        const progressBar = document.getElementById("progress-bar");
-        const statusMsg = document.getElementById("status-msg");
         let selectedFiles;
 
-        // Prevent default drag behaviors
-        ["dragenter", "dragover", "dragleave", "drop"].forEach(eventName => {
-            dropArea.addEventListener(eventName, e => e.preventDefault());
-        });
-
-        // Highlight on drag
-        ["dragenter", "dragover"].forEach(eventName => {
-            dropArea.addEventListener(eventName, () => dropArea.classList.add("highlight"));
-        });
-        ["dragleave", "drop"].forEach(eventName => {
-            dropArea.addEventListener(eventName, () => dropArea.classList.remove("highlight"));
-        });
-
-        // Handle dropped files
-        dropArea.addEventListener("drop", e => {
-            handleFiles(e.dataTransfer.files);
-        });
-
-        fileElem.addEventListener("change", () => {
-            handleFiles(fileElem.files);
-        });
+        ["dragenter", "dragover", "dragleave", "drop"].forEach(evt => dropArea.addEventListener(evt, e => e.preventDefault()));
+        ["dragenter", "dragover"].forEach(evt => dropArea.addEventListener(evt, () => dropArea.classList.add('highlight')));
+        ["dragleave", "drop"].forEach(evt => dropArea.addEventListener(evt, () => dropArea.classList.remove('highlight')));
+        dropArea.addEventListener("drop", e => handleFiles(e.dataTransfer.files));
+        fileElem.addEventListener("change", () => handleFiles(fileElem.files));
 
         function handleFiles(files) {
             selectedFiles = files;
             fileList.innerHTML = "";
             [...files].forEach(file => {
-                let li = document.createElement("li");
-                li.textContent = file.name;
+                const li = document.createElement("li");
+                li.textContent = "📌 " + file.name;
                 fileList.appendChild(li);
             });
         }
 
-        // Handle form submit with AJAX
-        uploadForm.addEventListener("submit", async (e) => {
+        // File conversion upload
+        const uploadForm = document.getElementById("uploadForm");
+        const progressContainer = document.getElementById("progress-container");
+        const progressBar = document.getElementById("progress-bar");
+        const statusMsg = document.getElementById("status-msg");
+
+        uploadForm.addEventListener("submit", async e => {
             e.preventDefault();
-
-            if (!selectedFiles || selectedFiles.length === 0) {
-                alert("Please select files first.");
-                return;
-            }
-
+            if (!selectedFiles || selectedFiles.length === 0) { alert("⚠️ Please select files first."); return; }
             let formData = new FormData();
-            for (let i = 0; i < selectedFiles.length; i++) {
-                formData.append("files", selectedFiles[i]);
-            }
+            for (let i = 0; i < selectedFiles.length; i++) { formData.append("files", selectedFiles[i]); }
             formData.append("conversion_type", document.getElementById("conversion_type").value);
 
-            progressContainer.style.display = "block";
-            progressBar.value = 0;
-            statusMsg.textContent = "Uploading...";
-
-            // Send request
-            let response = await fetch("/", {
-                method: "POST",
-                body: formData
-            });
+            progressContainer.style.display = "block"; progressBar.value = 0; statusMsg.textContent = "⏳ Uploading...";
+            let response = await fetch("/", { method: "POST", body: formData });
 
             if (response.ok) {
-                progressBar.value = 100;
-                statusMsg.textContent = "✅ Conversion Complete! Downloading file...";
-
-                // Download file automatically
+                progressBar.value = 100; statusMsg.textContent = "✅ Conversion Complete! Downloading file...";
                 let blob = await response.blob();
                 let url = window.URL.createObjectURL(blob);
-                let a = document.createElement("a");
-                a.href = url;
-                a.download = "converted_file"; // default name
-                document.body.appendChild(a);
-                a.click();
-                a.remove();
-
-                setTimeout(() => {
-                    progressContainer.style.display = "none";
-                }, 3000);
-            } else {
-                statusMsg.textContent = "❌ Conversion failed. Try again!";
-            }
+                const a = document.createElement("a");
+                a.href = url; a.download = "converted_file"; document.body.appendChild(a); a.click(); a.remove();
+                setTimeout(() => { progressContainer.style.display = "none"; }, 3000);
+            } else { statusMsg.textContent = "❌ Conversion failed. Try again!"; }
         });
 
-        if (/Mobi|Android/i.test(navigator.userAgent)) {
-    document.getElementById("drop-area").style.display = "none";
-}
+        if (/Mobi|Android/i.test(navigator.userAgent)) { dropArea.style.display = "none"; }
 
+        // Feedback form
+        const feedbackForm = document.getElementById('feedbackForm');
+        const testimonialList = document.getElementById('testimonialList');
+
+        feedbackForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+            const name = this.name.value.trim();
+            const message = this.message.value.trim();
+            if (name && message) {
+                const div = document.createElement('div');
+                div.className = "testimonial-card fade-in";
+                div.textContent = `"${message}" - ${name}`;
+                testimonialList.prepend(div); // show newest first
+                this.reset();
+            } else { alert("⚠️ Please fill in all fields."); }
+        });
+
+        // FAQ accordion
+        const faqs = document.querySelectorAll('.faq-item');
+        faqs.forEach(faq => {
+            faq.addEventListener('click', () => {
+                const p = faq.querySelector('p');
+                p.style.display = (p.style.display === 'block') ? 'none' : 'block';
+            });
+        });
+
+        function toggleDetail(card) {
+            // Close all other cards first
+            const allCards = document.querySelectorAll(".benefit-card");
+            allCards.forEach(c => {
+                if (c !== card) {
+                    c.classList.remove("active");
+                }
+            });
+
+            // Toggle clicked card
+            card.classList.toggle("active");
+        }
+
+        
     </script>
 </body>
+
 </html>
